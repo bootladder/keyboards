@@ -1,8 +1,9 @@
-
+ 
 #include "Keyboard.h"
 
 const int SWITCH_ON = 0;  //the switches are active low
 const int SWITCH_OFF = 1;
+const int NUMBER_OF_SWITCHES = 4;
 
 struct switch_descriptor{
   int pin;
@@ -13,20 +14,25 @@ struct switch_descriptor{
 
 
 
-struct switch_descriptor switchDescriptors[8] = {
-  {pin : 5,  state : 0xFF,  switchOnKeySequence : {'A'} , switchOffKeySequence : {'B'} } ,
-  {pin : 6,  state : 0xFF,  switchOnKeySequence : {'A'} , switchOffKeySequence : {'B'} } ,
-  {pin : 7,  state : 0xFF,  switchOnKeySequence : {'A'} , switchOffKeySequence : {'B'} } ,
-  {pin : 8,  state : 0xFF,  switchOnKeySequence : {'A'} , switchOffKeySequence : {'B'} } ,
-  {pin : 9,  state : 0xFF,  switchOnKeySequence : {'A'} , switchOffKeySequence : {'B'} } ,
-  {pin : 10, state : 0xFF,  switchOnKeySequence : {'A'} , switchOffKeySequence : {'B'} } ,
+struct switch_descriptor switchDescriptors[NUMBER_OF_SWITCHES] = {
 
-  {pin : 11,  state : 0xFF,
+
+  {pin : 8,  state : 0xFF,
+    switchOnKeySequence  : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'H'} ,
+    switchOffKeySequence : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'J'} ,
+  } ,
+  
+    {pin : 9,  state : 0xFF,
+    switchOnKeySequence  : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'K'} ,
+    switchOffKeySequence : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'L'} ,
+  } ,
+  
+  {pin : 10,  state : 0xFF,
     switchOnKeySequence  : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'O'} ,
     switchOffKeySequence : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'P'} ,
   } ,
 
-  {pin : 12,  state : 0xFF,
+  {pin : 11,  state : 0xFF,
     switchOnKeySequence  : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'R'} ,
     switchOffKeySequence : {KEY_LEFT_CTRL, KEY_LEFT_SHIFT, 'T'} ,
   } ,
@@ -43,7 +49,7 @@ void setup() {
   
   Keyboard.begin();
   
-  for(int i=0; i<8; i++){
+  for(int i=0; i<NUMBER_OF_SWITCHES; i++){
     pinMode(switchDescriptors[i].pin, INPUT_PULLUP);
   }
 }
@@ -51,7 +57,7 @@ void setup() {
 void loop() {
   delay(100);  //cheap debounce
 
-  for(int i=0; i<8; i++){
+  for(int i=0; i<NUMBER_OF_SWITCHES; i++){
     handle_switch(&switchDescriptors[i]);
   }
 }
